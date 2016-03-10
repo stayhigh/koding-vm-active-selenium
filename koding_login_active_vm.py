@@ -7,16 +7,17 @@ from selenium.webdriver.support.ui import WebDriverWait
 KODING_USERNAME = "<YOUR_USERNAME>"
 KODING_PASSWORD = "<YOUR_PASSWORD>"
 ACTIVE_VM_BUTTON_ID = 'kd-363'
+VM_ACTIVE_WAIT = 100
 
-def waitforever_vm_button_clickable(tries=10):
+def waitforever_vm_button_clickable():
     try:
         wait = WebDriverWait(browser, 10)
         active_vm_button = wait.until(EC.element_to_be_clickable((By.ID, ACTIVE_VM_BUTTON_ID)))
         active_vm_button.click()
     except selenium.common.exceptions.TimeoutException:
-        print "wait for more 10 sec"
         waitforever_vm_button_clickable()
     finally:
+        browser.implicit_wait(VM_ACTIVE_WAIT)
         browser.quit()
 
 browser = webdriver.Firefox()
